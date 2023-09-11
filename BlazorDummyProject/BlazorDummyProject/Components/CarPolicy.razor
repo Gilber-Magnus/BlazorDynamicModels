@@ -1,0 +1,25 @@
+﻿@using BlazorDummyProject.Models;
+<h3>Car Policy</h3>
+@if (policyDetails != null)
+{
+    <div>
+        <p>
+            Registration : @policyDetails.Registration
+        </p>
+        <p>
+            Colour: @policyDetails.Colour
+        </p>
+        <p>
+            Make: @policyDetails.Make
+        </p>
+    </div>
+}
+@code {
+    [Parameter]
+    public CarPolicyModel? policyDetails { get; set; }
+
+
+
+
+}
+

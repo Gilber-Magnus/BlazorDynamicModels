@@ -1,0 +1,103 @@
+﻿@page "/"
+@using BlazorDummyProject.Models;
+
+<PageTitle>Index</PageTitle>
+
+<h1>policy details</h1>
+
+<InputRadioGroup @bind-Value="@selectedEnum" @bind-Value:after="@PolicyTypeChanged">
+    @foreach(var option in Enum.GetValues<Enums.PolicyType>().Where(t=> t != Enums.PolicyType.None))
+    {
+        <div>
+            <InputRadio Value="option"/>
+            @option.ToString()
+        </div>
+    }
+</InputRadioGroup>
+
+
+@if(selectedPolicyComponent !=null)
+{
+   <DynamicComponent Type="@selectedPolicyComponent" Parameters="@selectedPolicyData"/>
+}
+@code {
+    private Type? selectedPolicyComponent;
+    private Dictionary<string, object?> selectedPolicyData;
+    private List<PolicyModel> policies = new();
+    private Enums.PolicyType selectedEnum = Enums.PolicyType.None;
+
+    private void PolicyTypeChanged()
+    {
+        selectedPolicyComponent = Type.GetType($"BlazorDummyProject.Components.{selectedEnum}Policy");
+        var policy = policies.Where(x => x.Type == selectedEnum).FirstOrDefault();
+        selectedPolicyData = new() { { "policyDetails", policy } };
+    }
+
+     
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        policies = new()
+        {
+            new CarPolicyModel()
+            {
+                Reference = "TEST_1",
+                StartDate = DateTime.Now.AddDays(2),
+                Type = Enums.PolicyType.Car,
+                CustomerName = "Test Name One",
+                Colour = "Blue",
+                Make = "Ferrari",
+                Registration = "TEST 13"
+
+            },
+            new DevicePolicyModel()
+            {
+                Reference = "TEST_2",
+                StartDate = DateTime.Now.AddDays(3),
+                Type = Enums.PolicyType.Device,
+                CustomerName = "Test Name Two",
+                Manufacturer = "MANUFACT TEST",
+                Model = "tst model",
+                Tablet = false
+            },
+            new PropertyPolicyModel()
+            {
+                Reference = "TEST_3",
+                StartDate = DateTime.Now.AddDays(4),
+                Type = Enums.PolicyType.Property,
+                CustomerName = "Test Name Three",
+                Address = "Test Street, London",
+                NoOfRooms = 6,
+                Value = 25000
+
+            }
+
+        };
+    }
+
+
+
+    // private List<object> toolbar = new List<object> { "Add" };
+    // public List<Order> Orders { get; set; }
+    // protected override void OnInitialized()
+    // {
+    //     Orders = Enumerable.Range(1, 15).Select(x => new Order()
+    //         {
+
+    //             OrderID = 1000 + x,
+    //             CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })
+    //                             [new Random().Next(5)],
+    //             Freight = 2.1 * x,
+    //             OrderDate = DateTime.Now.AddDays(-x)
+    //         }).ToList();
+    // }
+    // public class Order
+    // {
+    //     public int? OrderID { get; set; }
+    //     public string CustomerID { get; set; }
+    //     public DateTime OrderDate { get; set; }
+    //     public double? Freight { get; set; }
+    // }
+}

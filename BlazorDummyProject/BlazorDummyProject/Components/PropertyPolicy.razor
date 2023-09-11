@@ -1,0 +1,25 @@
+﻿@using BlazorDummyProject.Models;
+<h3>PropertyPolicy</h3>
+
+@if(policyDetails != null)
+{
+    <div>
+        <p>
+            Address  : @policyDetails.Address
+        </p>
+        <p>
+            Value : @policyDetails.Value
+        </p>
+        <p>
+           Number of rooms : @policyDetails.NoOfRooms
+        </p>
+    </div>
+}
+@code {
+    [Parameter]
+    public PropertyPolicyModel? policyDetails { get; set; }
+
+     
+
+
+}

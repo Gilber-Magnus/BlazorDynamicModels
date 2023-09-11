@@ -1,0 +1,21 @@
+﻿@using BlazorDummyProject.Models;
+<h3>Device Policy</h3>
+@if(policyDetails !=null)
+{
+      <div>
+        <p>
+            Manufacturer : @policyDetails.Manufacturer
+        </p>
+        <p>
+            Model: @policyDetails.Model
+        </p>
+        <p>
+            Tablet: @(policyDetails.Tablet ? "Yes" : "No")
+        </p>
+        </div>
+}
+
+@code {
+    [Parameter]
+    public DevicePolicyModel policyDetails {get; set;}
+}
